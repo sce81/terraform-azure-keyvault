@@ -1,6 +1,7 @@
 variable "name" {}
 variable "resource_group" {}
 variable "environment" {}
+variable "key_name" {}
 variable "key_permissions" {
   type    = list(string)
   default = []
@@ -32,3 +33,4 @@ variable "sku_name" { default = "standard" }
 variable "purge_protection" { default = false }
 variable "retention_days" { default = 7 }
 variable "disk_encryption" { default = true }
+variable "enabled_for_deployment" { default = true }
