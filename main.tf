@@ -1,5 +1,5 @@
 resource "azurerm_key_vault" "main" {
-  name                        = "${var.name}${substr(data.azurerm_client_config.current.tenant_id, -12, -1)}a"
+  name                        = "${var.name}${random_string.random.result}"
   location                    = data.azurerm_resource_group.main.location
   resource_group_name         = data.azurerm_resource_group.main.name
   enabled_for_disk_encryption = var.disk_encryption
@@ -32,6 +32,13 @@ resource "azurerm_key_vault_key" "main" {
     "unwrapKey",
   ]
 }
+
+resource "random_string" "random" {
+  length           = 6
+  special          = false
+  min_lower        = 6
+}
+
 
 //resource "azurerm_role_assignment" "main" {
 //  count              = length(var.kv_access_policy)
