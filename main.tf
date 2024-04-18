@@ -7,7 +7,7 @@ resource "azurerm_key_vault" "main" {
   soft_delete_retention_days  = var.retention_days
   purge_protection_enabled    = var.purge_protection
   sku_name                    = var.sku_name
-    enabled_for_deployment = var.enabled_for_deployment
+  enabled_for_deployment      = var.enabled_for_deployment
 }
 
 
@@ -19,10 +19,12 @@ resource "azurerm_key_vault_access_policy" "main" {
   application_id     = var.kv_access_policy[count.index].application_id
   key_permissions    = var.kv_access_policy[count.index].key_permissions
   secret_permissions = var.kv_access_policy[count.index].secret_permissions
+
+  depends_on = [azurerm_key_vault.main]
 }
 
 resource "azurerm_key_vault_key" "main" {
-  name         = var.key_name
+  name         = "${var.name}-key"
   key_vault_id = azurerm_key_vault.main.id
   key_type     = "RSA"
   key_size     = 2048
@@ -31,18 +33,20 @@ resource "azurerm_key_vault_key" "main" {
     "wrapKey",
     "unwrapKey",
   ]
+  depends_on = [azurerm_key_vault_access_policy.main]
 }
 
 resource "random_string" "random" {
-  length           = 6
-  special          = false
-  min_lower        = 6
+  length    = 6
+  special   = false
+  min_lower = 6
 }
 
 
-//resource "azurerm_role_assignment" "main" {
-//  count              = length(var.kv_access_policy)
-//  scope                = azurerm_key_vault.main.id
-//  role_definition_name = "Reader"
-//  principal_id         = var.kv_access_policy[count.index].object_id
-//}
+resource "azurerm_key_vault_secret" "private_key" {
+  name         = "${var.name}-ssh-key"
+  value        = var.ssh_key
+  key_vault_id = azurerm_key_vault.main.id
+
+  depends_on = [azurerm_key_vault_access_policy.main]
+}
