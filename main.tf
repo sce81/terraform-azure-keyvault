@@ -12,15 +12,15 @@ resource "azurerm_key_vault" "main" {
 
 
 resource "azurerm_key_vault_access_policy" "main" {
-  count              = length(var.kv_access_policy)
-  key_vault_id       = azurerm_key_vault.main.id
-  tenant_id          = data.azurerm_client_config.current.tenant_id
-  object_id          = var.kv_access_policy[count.index].object_id
-  application_id     = var.kv_access_policy[count.index].application_id
-  key_permissions    = var.kv_access_policy[count.index].key_permissions
-  secret_permissions = var.kv_access_policy[count.index].secret_permissions
-
-  depends_on = [azurerm_key_vault.main]
+  count               = length(var.kv_access_policy)
+  key_vault_id        = azurerm_key_vault.main.id
+  tenant_id           = data.azurerm_client_config.current.tenant_id
+  object_id           = var.kv_access_policy[count.index].object_id
+  application_id      = var.kv_access_policy[count.index].application_id
+  key_permissions     = var.kv_access_policy[count.index].key_permissions
+  secret_permissions  = var.kv_access_policy[count.index].secret_permissions
+  storage_permissions = var.kv_access_policy[count.index].storage_permissions
+  depends_on          = [azurerm_key_vault.main]
 }
 
 resource "azurerm_key_vault_key" "main" {
@@ -41,6 +41,17 @@ resource "random_string" "random" {
   special   = false
   min_lower = 6
 }
+
+resource "azurerm_key_vault_managed_storage_account" "main" {
+  name                         = "${var.name}${random_string.random.result}"
+  key_vault_id                 = azurerm_key_vault.main.id
+  storage_account_id           = var.storage_account
+  storage_account_key          = "key1"
+  regenerate_key_automatically = false
+  regeneration_period          = "P1D"
+  depends_on                   = [azurerm_key_vault_access_policy.main]
+}
+
 
 
 resource "azurerm_key_vault_secret" "private_key" {
