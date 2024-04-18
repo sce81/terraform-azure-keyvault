@@ -24,11 +24,12 @@ variable "ssh_key" {
 variable "kv_access_policy" {
   description = "List of policies to assign to KeyVault"
   type = list(object({
-    keyvault_id        = optional(string)
-    object_id          = optional(string)
-    application_id     = optional(string)
-    key_permissions    = optional(list(string))
-    secret_permissions = optional(list(string))
+    keyvault_id         = optional(string)
+    object_id           = optional(string)
+    application_id      = optional(string)
+    key_permissions     = optional(list(string))
+    secret_permissions  = optional(list(string))
+    storage_permissions = optional(list(string))
   }))
   default = []
 }
@@ -58,3 +59,8 @@ variable "enabled_for_deployment" {
   default     = true
 }
 
+variable "storage_account" {
+  description = "The ID of the Storage Account"
+  type        = string
+  default     = null
+}
