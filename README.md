@@ -69,9 +69,9 @@ No modules.
 | <a name="input_extra_tags"></a> [extra\_tags](#input\_extra\_tags) | Map of additional tags to assign to component | `map(any)` | `{}` | no |
 | <a name="input_kv_access_policy"></a> [kv\_access\_policy](#input\_kv\_access\_policy) | List of policies to assign to KeyVault | <pre>list(object({<br/>    keyvault_id         = optional(string)<br/>    object_id           = optional(string)<br/>    application_id      = optional(string)<br/>    key_permissions     = optional(list(string))<br/>    secret_permissions  = optional(list(string))<br/>    storage_permissions = optional(list(string))<br/>  }))</pre> | `[]` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name of application | `string` | n/a | yes |
-| <a name="input_purge_protection"></a> [purge\_protection](#input\_purge\_protection) | Is Purge Protection enabled for this Key Vault? | `bool` | `false` | no |
+| <a name="input_purge_protection"></a> [purge\_protection](#input\_purge\_protection) | Is Purge Protection enabled for this Key Vault? | `bool` | `true` | no |
 | <a name="input_resource_group"></a> [resource\_group](#input\_resource\_group) | Azure Resource Group name | `string` | n/a | yes |
-| <a name="input_retention_days"></a> [retention\_days](#input\_retention\_days) | The number of days that items should be retained for once soft-deleted. This value can be between 7 and 90 (the default) days. | `number` | `7` | no |
+| <a name="input_retention_days"></a> [retention\_days](#input\_retention\_days) | The number of days that items should be retained for once soft-deleted. This value can be between 7 and 90 (the default) days. | `number` | `90` | no |
 | <a name="input_sku_name"></a> [sku\_name](#input\_sku\_name) | The Name of the SKU used for this Key Vault. Possible values are standard and premium | `string` | `"standard"` | no |
 | <a name="input_ssh_key"></a> [ssh\_key](#input\_ssh\_key) | SSH Private Key to upload to KeyVault | `string` | `null` | no |
 | <a name="input_storage_account"></a> [storage\_account](#input\_storage\_account) | The ID of the Storage Account | `string` | `null` | no |

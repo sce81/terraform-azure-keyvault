@@ -41,12 +41,12 @@ variable "sku_name" {
 variable "purge_protection" {
   description = "Is Purge Protection enabled for this Key Vault?"
   type        = bool
-  default     = false
+  default     = true
 }
 variable "retention_days" {
   description = "The number of days that items should be retained for once soft-deleted. This value can be between 7 and 90 (the default) days."
   type        = number
-  default     = 7
+  default     = 90
 }
 variable "disk_encryption" {
   description = "Boolean flag to specify whether Azure Disk Encryption is permitted to retrieve secrets from the vault and unwrap keys."
